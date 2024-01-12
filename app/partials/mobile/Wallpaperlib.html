@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Selecione um papel de parede</title>
+  <style>
+    body {
+      background-image: url('default.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    label {
+      display: block;
+      margin: 20px 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Selecione um papel de parede</h1>
+  <input type="file" id="file-input" accept="image/*">
+  <label for="file-input">Selecionar imagem</label>
+  <script>
+    const fileInput = document.getElementById('file-input');
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        localStorage.setItem('wallpaper', reader.result);
+        document.body.style.backgroundImage = `url(${reader.result})`;
+      };
+    });
+    const wallpaper = localStorage.getItem('wallpaper');
+    if (wallpaper) {
+      document.body.style.backgroundImage = `url(${wallpaper})`;
+    }
+  </script>
+</body>
+</html>
